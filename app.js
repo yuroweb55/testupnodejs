@@ -35,6 +35,7 @@ app.get('/proxy', (req, res) => {
   }
 });
 
+app.use(express.static('./'));
 
 app.listen(port, () => {
   console.log('Proxy server running on 0001 port '+port);
