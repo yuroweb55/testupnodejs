@@ -1,42 +1,21 @@
 const express = require('express');
-const request = require('request');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const compression = require('compression');
 const cors = require('cors');
+
 const app = express();
 
-const port = process.env.PORT || 3000;
-
 app.use(cors());
+app.use(compression());
 
-app.get('/proxy', (req, res) => {
-  const url = req.query.url;
-  try {
-    if (!url) {
-      res.status(400).send('URL is required');
-      return;
-    }
 
-    request(url)
-      .on('response', function(response) {
-        // Set CORS headers in the response
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+app.use('/', createProxyMiddleware({
+    target: 'https://youtube.com',
+    changeOrigin: true,
+}));
 
-        // Pipe the response from the requested URL to the original response
-        response.pipe(res);
-      })
-      .on('error', function(error) {
-        console.error(error);
-        res.status(501).json({ error: error.message });
-      });
-  } catch (error) {
-    console.error(error);
-    res.status(501).json({ error });
-  }
-});
+const PORT = process.env.PORT || 3500;
 
-app.use(express.static('./'));
-
-app.listen(port, () => {
-  console.log('Proxy server running on 0001 port '+port);
+app.listen(PORT, () => {
+    console.log('Proxy server running on http://localhost:'+PORT);
 });
