@@ -11,7 +11,7 @@ app.use(compression());
 
 app.get('/ip', (req, res, next) => {
     if(req.ip){
-        res.send(req.ip.replace("::ffff:", ""));
+        res.send(req.ip);
     }else{
         res.send('not')
     }
