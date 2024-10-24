@@ -9,10 +9,13 @@ app.use(cors());
 app.use(compression());
 
 
-app.use('/', createProxyMiddleware({
-    target: 'https://youtube.com',
-    changeOrigin: true,
-}));
+app.get('/', (req, res, next) => {
+    if(req.ip){
+        res.send(req.ip.replace("::ffff:", ""));
+    }else{
+        res.send('not')
+    }
+});
 
 const PORT = process.env.PORT || 3500;
 
