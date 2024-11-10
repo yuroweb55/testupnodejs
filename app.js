@@ -10,7 +10,6 @@ const app = express();
 app.use(cors());
 app.use(compression());
 
-
 app.get('/ip', (req, res, next) => {
     if(req.ip){
         res.send(req.ip);
