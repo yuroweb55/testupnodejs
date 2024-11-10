@@ -38,16 +38,13 @@ app.get('/vimg', async (req, res,next) => {
             response.on('end', async () => {
                 try {
                     const imageBuffer = Buffer.concat(chunks);
-
                     // ใช้ sharp เพื่อบีบอัดภาพใน memory และแปลงเป็น WebP
                     const webpBuffer = await sharp(imageBuffer)
                         .webp({ quality: 40 })
                         .toBuffer();
-
-                    // ตั้งค่า Cache-Control เพื่อเก็บ cache เป็นเวลา 1 ปี
+                    
                     res.set('Content-Type', 'image/webp');
                     res.set('Cache-Control', 'public, max-age=3600'); // 1 ชั่วโมง
-
                     // ส่งภาพจาก memory โดยตรง
                     res.send(webpBuffer);
                 } catch (error) {
