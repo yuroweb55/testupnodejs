@@ -1,8 +1,8 @@
 const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+//const { createProxyMiddleware } = require('http-proxy-middleware');
 const compression = require('compression');
 const cors = require('cors');
-const sharp = require('sharp');
+//const sharp = require('sharp');
 const https = require('https');
 
 const app = express();
@@ -37,15 +37,11 @@ app.get('/vimg', async (req, res,next) => {
             response.on('end', async () => {
                 try {
                     const imageBuffer = Buffer.concat(chunks);
-                    // ใช้ sharp เพื่อบีบอัดภาพใน memory และแปลงเป็น WebP
-                    const webpBuffer = await sharp(imageBuffer)
-                        .webp({ quality: 40 })
-                        .toBuffer();
                     
                     res.set('Content-Type', 'image/webp');
                     res.set('Cache-Control', 'public, max-age=3600'); // 1 ชั่วโมง
                     // ส่งภาพจาก memory โดยตรง
-                    res.send(webpBuffer);
+                    res.send(imageBuffer);
                 } catch (error) {
                     console.error("Error processing image: " + error.message);
                     res.status(500).send('Error processing image');
