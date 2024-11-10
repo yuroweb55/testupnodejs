@@ -2,6 +2,8 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const compression = require('compression');
 const cors = require('cors');
+const sharp = require('sharp');
+const https = require('https');
 
 const app = express();
 
@@ -14,6 +16,52 @@ app.get('/ip', (req, res, next) => {
         res.send(req.ip);
     }else{
         res.send('not')
+    }
+});
+
+app.get('/vimg', async (req, res,next) => {
+    if (req.hostname!==HO){return next()}
+    const url = req.query.u;
+    if (url) {
+        console.log(url);
+
+        https.get(url, (response) => {
+            if (response.statusCode !== 200) {
+                return res.status(response.statusCode).send('Error fetching');
+            }
+
+            // เก็บข้อมูลภาพใน memory แทนการเขียนลง disk
+            const chunks = [];
+            response.on('data', (chunk) => {
+                chunks.push(chunk);
+            });
+
+            response.on('end', async () => {
+                try {
+                    const imageBuffer = Buffer.concat(chunks);
+
+                    // ใช้ sharp เพื่อบีบอัดภาพใน memory และแปลงเป็น WebP
+                    const webpBuffer = await sharp(imageBuffer)
+                        .webp({ quality: 40 })
+                        .toBuffer();
+
+                    // ตั้งค่า Cache-Control เพื่อเก็บ cache เป็นเวลา 1 ปี
+                    res.set('Content-Type', 'image/webp');
+                    res.set('Cache-Control', 'public, max-age=3600'); // 1 ชั่วโมง
+
+                    // ส่งภาพจาก memory โดยตรง
+                    res.send(webpBuffer);
+                } catch (error) {
+                    console.error("Error processing image: " + error.message);
+                    res.status(500).send('Error processing image');
+                }
+            });
+        }).on('error', (err) => {
+            console.error("Error downloading file: " + err.message);
+            res.status(500).send('Error fetching');
+        });
+    } else {
+        res.status(400).send('Error: URL parameter is required');
     }
 });
 
