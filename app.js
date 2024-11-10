@@ -19,9 +19,11 @@ app.get('/ip', (req, res, next) => {
 });
 
 app.get('/vimg', async (req, res,next) => {
-    const url = req.query.u;
+    var url = req.query.u;
     if (url) {
         console.log(url);
+        url=encodeURIComponent(url);
+        
 
         https.get(url, (response) => {
             if (response.statusCode !== 200) {
