@@ -22,7 +22,7 @@ app.get('/vimg', async (req, res,next) => {
     var url = req.query.u;
     if (url) {
         console.log(url);
-        url=encodeURIComponent(url);
+        url=decodeURIComponent(url);
         
 
         https.get(url, (response) => {
