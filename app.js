@@ -20,7 +20,6 @@ app.get('/ip', (req, res, next) => {
 });
 
 app.get('/vimg', async (req, res,next) => {
-    if (req.hostname!==HO){return next()}
     const url = req.query.u;
     if (url) {
         console.log(url);
