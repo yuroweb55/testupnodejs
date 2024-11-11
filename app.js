@@ -1,8 +1,8 @@
 const express = require('express');
-//const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const compression = require('compression');
 const cors = require('cors');
-//const sharp = require('sharp');
+const sharp = require('sharp');
 const https = require('https');
 
 const app = express();
