@@ -41,15 +41,15 @@ app.get('/vimg', async (req, res,next) => {
                     const imageBuffer = Buffer.concat(chunks);
                     
                     // ใช้ sharp เพื่อบีบอัดภาพใน memory และแปลงเป็น WebP
-                    const webpBuffer = await sharp(imageBuffer)
-                        .webp({ quality: 40 })
-                        .toBuffer();
+                    //const webpBuffer = await sharp(imageBuffer)
+                       // .webp({ quality: 40 })
+                       // .toBuffer();
                     
                     res.set('Content-Type', 'image/webp');
                     res.set('Cache-Control', 'public, max-age=3600'); // 1 ชั่วโมง
                     // ส่งภาพจาก memory โดยตรง
-                    res.send(webpBuffer);
-                    
+                    //res.send(webpBuffer);
+                    res.send(imageBuffer);
                 } catch (error) {
                     console.error("Error processing image: " + error.message);
                     res.status(500).send('Error processing image -');
