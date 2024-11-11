@@ -43,7 +43,7 @@ app.get('/vimg', async (req, res,next) => {
                     
                     // ใช้ sharp เพื่อบีบอัดภาพใน memory และแปลงเป็น WebP
                     const webpBuffer = await sharp(imageBuffer)
-                        .webp({ quality: 40 })
+                        .webp({ quality: 60 })
                         .toBuffer();
                     
                     res.set('Content-Type', 'image/webp');
