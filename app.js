@@ -49,9 +49,10 @@ app.get('/vimg', async (req, res,next) => {
                     res.set('Cache-Control', 'public, max-age=3600'); // 1 ชั่วโมง
                     // ส่งภาพจาก memory โดยตรง
                     res.send(webpBuffer);
+                    
                 } catch (error) {
                     console.error("Error processing image: " + error.message);
-                    res.status(500).send('Error processing image');
+                    res.status(500).send('Error processing image -');
                 }
             });
         }).on('error', (err) => {
