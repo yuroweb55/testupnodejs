@@ -85,10 +85,10 @@ setInterval(() => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response;
+            return;
         })
         .catch(error => {
-            console.error('Fetch failed:', error);
+            //console.error('Fetch failed:', error);
         });
 }, 5000);
 
