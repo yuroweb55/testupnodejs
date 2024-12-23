@@ -11,6 +11,14 @@ const app = express();
 app.use(cors());
 app.use(compression());
 
+app.use(
+  '/apifkwac',
+  createProxyMiddleware({
+    target: 'http://fkw.ac.th/chkstudent-t/apiywm/data/', 
+    changeOrigin: true,
+  })
+);
+
 app.get('/ip', (req, res, next) => {
     if(req.ip){
         res.send(req.ip);
