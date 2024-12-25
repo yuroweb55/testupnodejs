@@ -19,6 +19,14 @@ app.use(
   })
 );
 
+app.use(
+  '/api58911022',
+  createProxyMiddleware({
+    target: 'http://yuro09472.trueddns.com:27221/ywm/data/', 
+    changeOrigin: true,
+  })
+);
+
 app.get('/ip', (req, res, next) => {
     if(req.ip){
         res.send(req.ip);
