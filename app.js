@@ -12,18 +12,13 @@ app.use(cors());
 app.use(compression());
 
 app.use(
-  '/apifkwac',
-  createProxyMiddleware({
-    target: 'http://fkw.ac.th/chkstudent-t/apiywm/data/', 
-    changeOrigin: true,
-  })
-);
-
-app.use(
   '/api58911022',
   createProxyMiddleware({
     target: 'http://yuro09472.trueddns.com:27221/ywm/data/', 
     changeOrigin: true,
+    onProxyRes: (proxyRes, req, res) => {
+      proxyRes.headers['Cache-Control'] = 'public, max-age=31536000';
+    },
   })
 );
 
