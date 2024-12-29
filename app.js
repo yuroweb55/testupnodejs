@@ -2,7 +2,6 @@ const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
 const https = require('https');
-const ytdl = require('@distube/ytdl-core');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
@@ -21,33 +20,6 @@ app.use(
       },
     })
   );
-
-app.get('/runvideo', async (req, res) => {
-    try {
-        const id = req.query.id;
-        if (!id) {
-            return res.status(400).json({ error: 'กรุณาระบุ ID ของวิดีโอ' });
-        }
-        const info = await ytdl.getInfo(id);
-        const formats = info.formats || [];
-        
-        let vidF = formats.filter(format => format.qualityLabel === '360p') || 
-                          formats.filter(format => format.qualityLabel === '240p');
-        if (!vidF) {
-            return res.json({ url: 'not' });
-        }
-        if (req.aborted) {
-            return;
-        }
-        res.json({ url: vidF[vidF.length-1].url || 'not' });
-    } catch (error) {
-        console.error('Error while fetching video info:', error.message || error);
-        res.status(500).json({ error: 'เกิดข้อผิดพลาดในการดึงข้อมูล' });
-    }
-});
-
-
-
 
 app.get('/httpsvideo', (req, res) => {
     const videoUrl = req.query.url;
@@ -106,7 +78,7 @@ app.listen(PORT, () => {
 
 
 setInterval(() => {
-    fetch('https://apiyw2.onrender.com/')
+    fetch('https://apiyw.onrender.com/')
         .then()
         .catch();
 }, 5000);
