@@ -78,7 +78,7 @@ app.listen(PORT, () => {
 
 
 setInterval(() => {
-    fetch('https://apiyw.onrender.com/')
+    fetch('https://testupnodejs-production.up.railway.app/')
         .then()
         .catch();
-}, 5000);
+}, 30000);
