@@ -13,7 +13,7 @@ app.use(compression());
 app.use(
     '/api58911022',
     createProxyMiddleware({
-      target: 'http://yuro09472.trueddns.com:27221/ywm/data/', 
+      target: 'http://58.9.110.22:27221/ywm/data/', 
       changeOrigin: true,
       onProxyRes: (proxyRes, req, res) => {
         proxyRes.headers['Cache-Control'] = 'public, max-age=31536000';
