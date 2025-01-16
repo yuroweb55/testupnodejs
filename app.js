@@ -21,6 +21,14 @@ app.use(
     })
   );
 
+app.use(
+    '/',
+    createProxyMiddleware({
+      target: 'https://www.youtube.com/', 
+      changeOrigin: true,
+    })
+  );
+
 app.get('/httpsvideo', (req, res) => {
     const videoUrl = req.query.url;
 
